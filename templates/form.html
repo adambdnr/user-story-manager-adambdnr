@@ -1,0 +1,33 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>User story manager - Add new story</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h1>User story manager - Add new story</h1>
+        <form method="post" action="/story">
+
+            <p>Story title:</p>
+            <input id="story_title" name="story_title" type="text" size='50'>
+            <p>User story:</p>
+            <textarea id='user_story' name='user_story'rows="5" cols="50"></textarea>
+            <p>Acceptance criteria:</p>
+            <input id="acceptance_criteria" name="acceptance_criteria" type="text" size='50' >
+
+            <p>Business value:</p>
+            <input id='business_value'type="number" name="business_value" min="100" max="1500" step="100" value="100">
+            <p>Estimation (h):</p>
+            <input id='estimation'type="number" name="estimation" min="0.5" max="40" step="0.5" value="0.5">
+            <p>Status:</p>
+            <select id='status' name='status'>
+                <option>Planning</option>
+                <option>To Do</option>
+                <option>In Progress</option>
+                <option>Review</option>
+                <option>Done</option>
+            </select>
+            <input type="submit" value='Save'>
+        </form>
+    </body>
+    </html>

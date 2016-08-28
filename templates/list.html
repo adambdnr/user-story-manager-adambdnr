@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <from method="get" action="/">
+        <button id"story_post_button" type="submit" >Add New User Story</button>
+    </form>
+
+    <table style="width: 50px" border="1px solid black">
+        <col widht="130">
+        <col widht="130">
+        <col widht="130">
+        <col widht="130">
+        <col widht="130">
+        <col widht="130">
+        <col widht="130">
+
+        <tr><th>id</th> <th>title</th> <th>story</th>
+            <th>criteria</th> <th>business value</th>
+            <th>estimation</th> <th>status</th></tr>
+        {% for story in story %}
+        <tr><td>{{story.id}}</td>
+            <td>{{story.story_title  }}</td>
+            <td>{{story.user_story  }}</td>
+            <td>{{story.acceptance_criteria  }}</td>
+            <td>{{story.business_value  }}</td>
+            <td>{{story.estimation}}</td>
+            <td>{{story.status}}</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
