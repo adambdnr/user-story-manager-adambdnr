@@ -1,21 +1,24 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from peewee import *
 from flask import request, redirect, url_for
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://adambodnar:123@localhost/user_stories'
-db = SQLAlchemy(app)
-db.create_all()
+db = PostgresqlDatabase("user_story_db", user="adambodnar")
+db.connect()
 
-class Story(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    story_title = db.Column(db.String(80), unique=True)
-    user_story = db.Column(db.Text)
-    acceptance_criteria = db.Column(db.Text)
-    business_value = db.Column(db.Integer)
-    estimation = db.Column(db.Integer)
-    status = db.Column(db.String(30))
+class BaseModel(Model):
+    """A base model that will use our Postgresql database"""
+    class Meta:
+        database = db
+
+class Story(BaseModel):
+    story_title = CharField()
+    user_story = TextField()
+    acceptance_criteria = CharField()
+    business_value = IntegerField()
+    estimation = IntegerField
+    status = IntegerField()
 
     def __init__(self,
                  story_title,
@@ -58,8 +61,14 @@ def story_post():
                       request.form['status']
                       )
 
-    db.session.add(new_story)
-    db.session.commit()
+    for story in new_story:
+        story = Story.create(story_title=request.form['story_title'],
+                             user_story=request.form['user_story'],
+                             acceptance_criteria=request.form['acceptance_criteria'],
+                             business_value=request.form['business_value'],
+                             estimation=float(request.form['estimation']),
+                             status=request.form['status']
+                             )
     return redirect(url_for('index'))
 
 
@@ -68,5 +77,7 @@ def list_story():
     story = Story.query.all()
     return render_template('list.html', story=story)
 
+
+Story.create_table()
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
